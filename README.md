@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Email Forwarding Portal
 
-## Getting Started
+A secure email forwarding system built with Next.js and Supabase.
 
-First, run the development server:
+## Features
 
+- Email forwarding with filters
+- User authentication
+- Admin dashboard
+- Secure email access
+
+## Setup
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/email-forwarding.git
+cd email-forwarding
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+   - Copy `.env.example` to `.env.local`
+   - Fill in your Supabase credentials
+   - Add your Gmail configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Set up Gmail:
+   - Enable 2-Step Verification
+   - Generate App Password
+   - Add to environment variables
 
-## Learn More
+5. Run the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Copy `.env.example` to `.env.local` and fill in your values:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anonymous key
+- `GMAIL_USER`: Your Gmail address
+- `GMAIL_APP_PASSWORD`: Your Gmail app password
+- `NEXT_PUBLIC_SITE_URL`: Your site URL (default: http://localhost:3000)
 
-## Deploy on Vercel
+## Security
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Never commit `.env` or `.env.local` files
+- Keep your Gmail app password secure
+- Regularly rotate your credentials
+- Use environment variables for all sensitive data
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributing
+
+1. Create a new branch
+2. Make your changes
+3. Submit a pull request
+
+## License
+
+MIT License
