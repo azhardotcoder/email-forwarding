@@ -3,25 +3,23 @@
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
+import { useEffect, useState } from 'react'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export default function LoginPage() {
   const router = useRouter()
+  const [origin, setOrigin] = useState('')
+  const [supabase] = useState(() => createClientComponentClient())
 
   useEffect(() => {
-    // Check initial auth state
-    const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        router.push('/dashboard')
-      }
-    }
-    checkUser()
+    setOrigin(window.location.origin)
+  }, [])
 
-    // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
         router.push('/dashboard')
       }
     })
@@ -29,7 +27,15 @@ export default function LoginPage() {
     return () => {
       subscription.unsubscribe()
     }
-  }, [router])
+  }, [router, supabase.auth])
+
+  if (!origin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -49,8 +55,8 @@ export default function LoginPage() {
             }
           }}
           providers={[]}
-          redirectTo={`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/dashboard`}
-          magicLink={true}
+          redirectTo={`${origin}/auth/callback`}
+          onlyThirdPartyProviders={false}
         />
       </div>
     </div>
